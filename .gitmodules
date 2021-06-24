@@ -1,3 +1,6 @@
 [submodule "qemu_iowa/iowa-sdk"]
 	path = qemu_iowa/iowa-sdk
 	url = https://github.com/IOTEROP/IOWA.git
+[submodule "nRF9160dk/iowa-sdk"]
+	path = nRF9160dk/iowa-sdk
+	url = https://github.com/IOTEROP/IOWA.git

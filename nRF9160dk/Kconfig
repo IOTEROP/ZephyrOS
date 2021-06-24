@@ -1,0 +1,59 @@
+#
+# Copyright (c) 2021 IoTerop
+#
+# SPDX-License-Identifier: LicenseRef-BSD-5-Clause-Nordic
+#
+
+menu "IOWA sample settings"
+
+config IOWA_SERVER_URI
+	string "IOWA server address"
+	default "coap://iowa-server.ioterop.com"
+
+config IOWA_SERVER_PORT
+	string "IOWA server port"
+	default "5684"
+
+config IOWA_SERVER_SHORT_ID
+	int "IOWA server short id"
+	default 1234
+
+config IOWA_SERVER_LIFETIME
+	int "IOWA server lifetime"
+	default 50
+
+config IOWA_DEVICE_NAME
+	string "IOWA device endpoint name"
+	default "IOWA_nrf9160DK_Client"
+
+config IOWA_PSK_IDENTITY
+	string "IOWA PSK identity"
+	default "MyIdentity"
+
+config IOWA_PSK_KEY
+	string "IOWA PSK key"
+	default "123456"
+
+config IOWA_BOARD_TLS_TAG
+	int "IOWA Board TLS tag"
+	default 280234110
+
+config MODEM_PSM_ENABLE
+	bool "Enable LTE Power Saving Mode"
+	default n
+
+config MODEM_EDRX_ENABLE
+	bool "Enable LTE enhanced Discontinuous Reception"
+
+config MODEM_RAI_ENABLE
+	bool "Enable LTE Release Assistance Indication"
+
+endmenu
+
+module = IOWA
+module-str = IOWA sample
+source "${ZEPHYR_BASE}/subsys/logging/Kconfig.template.log_config"
+
+menu "Zephyr Kernel"
+source "Kconfig.zephyr"
+endmenu
