@@ -43,9 +43,6 @@
 #define CONFIG_IOWA_PSK_KEY       "123456"
 #define CONFIG_IOWA_BOARD_TLS_TAG 280234110
 
-//#define CONFIG_MODEM_PSM_ENABLE
-//#define CONFIG_MODEM_EDRX_ENABLE
-//#define CONFIG_MODEM_RAI_ENABLE
 #endif
 
 
@@ -85,7 +82,7 @@ static k_tid_t measure_thread_id;
 // notif. for cellular
 K_SEM_DEFINE(lte_connected, 0, 1);
 
-#if defined(CONFIG_BSD_LIBRARY)
+//#if defined(CONFIG_BSD_LIBRARY)
 /* --------------------------------------------------------------- 
 */
 static void lte_handler(const struct lte_lc_evt *const evt) {
@@ -176,42 +173,6 @@ static int configure_low_power(void) {
 static int modem_configure(void) {
     int err;
 
-    char psk_hex[64];
-    uint16_t psk_len;
-
-    /* Convert PSK to a format accepted by the modem storage. */
-    psk_len = bin2hex(client_psk, strlen(client_psk), psk_hex,
-                      sizeof(psk_hex));
-    if (psk_len == 0)
-    {
-        printk("PSK is too large to convert.");
-        return -ENOBUFS;
-    }
-
-    /* Store keys in the modem */
-    err = modem_key_mgmt_write(CONFIG_IOWA_BOARD_TLS_TAG,
-                               MODEM_KEY_MGMT_CRED_TYPE_PSK,
-                               psk_hex, psk_len);
-    if (err < 0)
-    {
-        printk("Error setting cred tag %d type %d: Error %d",
-               CONFIG_IOWA_BOARD_TLS_TAG, MODEM_KEY_MGMT_CRED_TYPE_PSK,
-               err);
-        return err;
-    }
-
-    err = modem_key_mgmt_write(CONFIG_IOWA_BOARD_TLS_TAG,
-                               MODEM_KEY_MGMT_CRED_TYPE_IDENTITY,
-                               client_identity,
-                               strlen(client_identity));
-    if (err < 0)
-    {
-        printk("Error setting cred tag %d type %d: Error %d",
-               CONFIG_IOWA_BOARD_TLS_TAG,
-               MODEM_KEY_MGMT_CRED_TYPE_IDENTITY, err);
-        return err;
-    }
-
     if (IS_ENABLED(CONFIG_LTE_AUTO_INIT_AND_CONNECT)) {
         /* Do nothing, modem is already configured and LTE connected. */
     } else {
@@ -222,7 +183,7 @@ static int modem_configure(void) {
         }
     }
 }
-#endif
+//#endif
 
 
 /* ----------------------------------------------------
@@ -294,11 +255,11 @@ void main(void) {
         printk("Unable to set low power configuration, error: %d\n",
             err);
     }
-
+#endif
     modem_configure();
 
     k_sem_take(&lte_connected, K_FOREVER);
-#endif
+
 
     // Application specific : initialize abstraction layer functions
     printk("Start IOWA lwm2m stack\n");
@@ -344,7 +305,6 @@ void main(void) {
     }
 
     // Add a LwM2M Server to connect to
-    
     result = iowa_client_add_server(iowaH, SERVER_SHORT_ID, SERVER_URI, SERVER_LIFETIME, 0, IOWA_SEC_NONE);  
     if (result != IOWA_COAP_NO_ERROR) {
         printk("Adding a server failed (%u.%02u).\n", (result & 0xFF) >> 5, (result & 0x1F));

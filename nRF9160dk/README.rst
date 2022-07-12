@@ -1,7 +1,11 @@
 .. _iowa_client:
 
+Warning: This documentation is outdated 
+
+
 nRF9160: IOWA Client
 ############
+
 
 .. contents::
    :local:
@@ -9,7 +13,7 @@ nRF9160: IOWA Client
 
 The IOWA sample demonstrates the behavior of the IOWA lwM2M stack running on a cellular device.
 The sample uses the :ref:`nrfxlib:bsdlib` and :ref:`lte_lc_readme` library.
-The IOWA library *must* be the full version.
+
 
 Requirements
 ************

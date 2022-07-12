@@ -12,7 +12,7 @@ config IOWA_SERVER_URI
 
 config IOWA_SERVER_PORT
 	string "IOWA server port"
-	default "5684"
+	default "5683"
 
 config IOWA_SERVER_SHORT_ID
 	int "IOWA server short id"
